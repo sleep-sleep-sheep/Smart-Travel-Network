@@ -1,0 +1,609 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅游 AI 助手</title>
+    <style>
+        /* 全局样式 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* 自定义动画 */
+        .fadeInUp {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* 按钮动画 */
+        .btn:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+
+        /* 卡片动画 */
+        .card {
+            transition: transform 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-10px);
+            }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* 模态框内容样式 */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* 关闭按钮样式 */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        /* 景点推荐容器样式 */
+        #recommend-city-container {
+            width: 100%;
+            margin: 80px auto;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background-color: white;
+        }
+
+        .attraction-item {
+            margin: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: flex-start;
+        }
+
+            .attraction-item img {
+                width: 120px;
+                height: auto;
+                margin-right: 20px;
+                border-radius: 5px;
+            }
+
+        .attraction-item-details {
+            flex: 1;
+        }
+
+        .attraction-item h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+            color: #333;
+        }
+
+        .attraction-item p {
+            margin-bottom: 10px;
+            max-height: 120px;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .show-more-btn,
+        .show-less-btn {
+            display: inline-block;
+            color: #007bff;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .show-less-btn {
+            display: none;
+        }
+
+        /* 其他模块样式 */
+        .container {
+            padding: 0 20px;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .col-md-4 {
+            flex: 0 0 calc(33.33% - 20px);
+            margin-bottom: 20px;
+        }
+
+        .card {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+            .card h3 {
+                margin-bottom: 10px;
+                font-size: 24px;
+                color: #333;
+            }
+
+        .form-control {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        #display-recommend {
+            display: none;
+        }
+
+        #recommend-city-container {
+            display: none;
+        }
+
+        #attractionList {
+            transition: opacity 0.15s linear;
+        }
+
+            #attractionList.fade {
+                opacity: 0;
+            }
+
+                #attractionList.fade.show {
+                    opacity: 1;
+                }
+    </style>
+    <!-- 引入 jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <section id="hero" class="position-relative">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://picsum.photos/1920/1080" class="d-block w-100" alt="Slide 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://picsum.photos/1921/1080" class="d-block w-100" alt="Slide 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://picsum.photos/1922/1080" class="d-block w-100" alt="Slide 3">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <div class="position-absolute top-50 start-50 translate-middle text-white text-center fadeInUp">
+            <h1 class="display-2 fw-bold mb-4">开启您的梦幻之旅</h1>
+            <p class="lead mb-5">让 AI 为您规划完美行程</p>
+            <a class="btn btn-warning btn-lg" onclick="scrollToTarget1()">立即体验</a>
+        </div>
+    </section>
+
+    <!-- AI 功能模块 -->
+    <section id="ai-features" class="py-5">
+        <div class="container">
+            <h2 class="text-center display-4 fw-bold mb-5 fadeInUp">AI 旅游助手</h2>
+            <div class="row g-4">
+                <!-- 景点推荐 -->
+                <div class="col-md-4 fadeInUp">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3 class="card-title text-center">景点推荐</h3>
+                            <input type="text" id="attraction-request" class="form-control mb-3"
+                                   placeholder="输入景点推荐需求，如：海边的景点">
+                            <button id="attraction-button" class="btn btn-primary w-100">获取推荐</button>
+                            <div id="attraction-result" class="mt-3"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 多日游路线规划 -->
+                <div class="col-md-4 fadeInUp">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3 class="card-title text-center">多日游路线规划</h3>
+                            <input type="text" id="location-input" class="form-control mb-3"
+                                   placeholder="输入旅行地点，如：北京">
+                            <input type="number" id="days-input" class="form-control mb-3"
+                                   placeholder="输入旅行天数，如：3">
+                            <button id="itinerary-button" class="btn btn-success w-100">生成路线</button>
+                            <div id="itinerary-result" class="mt-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="hot-spots" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center display-4 fw-bold mb-5 fadeInUp">热门旅游景点</h2>
+            <div class="row g-4" id="attractionList">
+                <!-- 这里会动态加载景点信息 -->
+            </div>
+            <button id="next-batch-btn" class="btn btn-primary mt-4">换一批</button>
+            <div id="loading" class="mt-3" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                正在加载，请稍候...
+            </div>
+            <div id="error" class="mt-3 alert alert-danger" style="display: none;">
+                加载景点信息时出现错误，请稍后重试。
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div id="recommend-city-container" class="max-w-md mx-auto mt-8">
+            <div id="container" style="margin-top:30px">
+                <h2 class="text-center display-4 fw-bold mb-5 fadeInUp">AI 推荐城市</h2>
+            </div>
+        </div>
+    </section>
+    <!-- 模态框 -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalContent">
+                <div id="loading2" class="mt-3" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    正在加载，请稍候...
+                </div>
+                <div id="typingEffect"></div>
+                <div id="display-recommend"><a onclick="gettorecommend()" style="color:red">check the recommend city by AI</a></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function scrollToTarget1() {
+            var target = document.getElementById('ai-features');
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function gettorecommend() {
+            var target = document.getElementById('recommend-city-container');
+            var modal = $('#myModal');
+            modal.css('display', 'none');
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        $(document).ready(function () {
+            let currentSkip = 0;
+            const take = 3;
+
+            console.log('文档加载完成，开始加载第一批景点信息');
+            loadAttractions(currentSkip, take);
+
+            $('#next-batch-btn').click(function () {
+                console.log('点击了换一批按钮，开始加载下一批景点信息');
+                $('#loading').show();
+                $('#error').hide();
+
+                // 添加淡出动画
+                $('#attractionList').addClass('fade');
+                $('#attractionList').removeClass('show');
+
+                currentSkip += take;
+                $.ajax({
+                    url: `/TouristAttractions/GetAttractions?skip=${currentSkip}&take=${take}`,
+                    method: 'GET',
+                    success: function (data) {
+                        console.log('成功获取下一批景点数据:', data);
+                        $('#loading').hide();
+                        if (data) {
+                            // 等待淡出动画完成后更新内容
+                            $('#attractionList').one('transitionend', function () {
+                                $(this).html(data);
+                                $(this).removeClass('fade');
+                                $(this).addClass('show');
+                                $(this).find('.col-md-4').addClass('fadeInUp');
+                            }).emulateTransitionEnd(150);
+                        } else {
+                            console.log('获取到的数据为空');
+                            // 如果数据为空，恢复显示原内容
+                            $('#attractionList').removeClass('fade');
+                            $('#attractionList').addClass('show');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('请求下一批景点数据失败:', status, error);
+                        $('#loading').hide();
+                        $('#error').show();
+                        // 若请求失败，恢复显示原内容
+                        $('#attractionList').removeClass('fade');
+                        $('#attractionList').addClass('show');
+                    }
+                });
+            });
+
+            function loadAttractions(skip, take) {
+                $('#loading').show();
+                $('#error').hide();
+                $.ajax({
+                    url: `/TouristAttractions/GetAttractions?skip=${skip}&take=${take}`,
+                    method: 'GET',
+                    success: function (data) {
+                        console.log('成功获取第一批景点数据:', data);
+                        $('#loading').hide();
+                        if (data) {
+                            $('#attractionList').html(data);
+                            $('#attractionList').addClass('show');
+                            $('#attractionList .col-md-4').addClass('fadeInUp');
+                        } else {
+                            console.log('获取到的数据为空');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('请求第一批景点数据失败:', status, error);
+                        $('#loading').hide();
+                        $('#error').show();
+                    }
+                });
+            }
+
+            $('#attraction-button').click(async function () {
+                let abortController = new AbortController();
+                const signal = abortController.signal;
+                $(this).prop('disabled', true);
+                var modal = $('#myModal');
+                var closeBtn = $('.close');
+                var modalContent = $('#modalContent');
+                const inputElement = document.getElementById("attraction-request");
+                let inputText = inputElement.value;
+                if (!inputText) {
+                    inputText = inputElement.placeholder;
+                }
+
+                const typingArea = document.getElementById("typingEffect");
+                const loading = document.getElementById("loading2");
+                const display_recommend = document.getElementById("display-recommend");
+                const city_container = document.getElementById("recommend-city-container");
+                typingArea.innerHTML = "";
+                loading.style.display = "block";
+                modal.css('display', 'block');
+
+                try {
+                    console.log('开始发送请求到 DeepSeek，输入文本:', inputText);
+                    const response = await fetch("/DeepSeek/CallDeepSeek", {
+                        method: "POST",
+                        body: new URLSearchParams({ inputText: inputText }),
+                        signal: signal
+                    });
+                    console.log('DeepSeek 请求响应状态:', response.status);
+                    if (!response.ok) {
+                        throw new Error('请求失败，状态码: ' + response.status);
+                    }
+                    const completeText = await response.text();
+                    console.log('DeepSeek 返回的完整文本:', completeText);
+                    loading.style.display = "none";
+                    typeWriter(completeText, typingArea);
+                    display_recommend.style.display = "block";
+                    city_container.style.display = "block";
+                    $('#attraction-button').prop('disabled', false);
+
+                    // 使用 DeepSeek API 的结果进行景点搜索
+                    console.log('开始发送景点搜索请求，输入文本:', completeText);
+                    const attractionResponse = await fetch("/Attraction", {
+                        method: "POST",
+                        body: new URLSearchParams({ inputText: completeText }),
+                        signal: signal
+                    });
+                    console.log('景点搜索请求响应状态:', attractionResponse.status);
+                    if (!attractionResponse.ok) {
+                        throw new Error('景点搜索请求失败，状态码: ' + attractionResponse.status);
+                    }
+                    const cityContainer = document.getElementById('recommend-city-container');
+                    const data = await attractionResponse.json();
+                    console.log('解析后的数据类型:', typeof data);
+                    console.log('解析后第一个 attraction 对象的 Name 类型:', typeof data[0]?.Name);
+                    loading.classList.add('hidden');
+                    if (data.length === 0) {
+                        cityContainer.innerHTML = '<p class="text-red-500">未找到相关景点。</p>';
+                    } else {
+                        data.forEach(attraction => {
+                            if (attraction) {
+                                const attractionDiv = document.createElement('div');
+                                attractionDiv.classList.add('attraction-item');
+                                attractionDiv.innerHTML = `
+                                                    <img src="${attraction.PhotoPath || ''}" alt="${attraction.Name || '未提供名称'}">
+                                                    <div class="attraction-item-details">
+                                                        <h2 class="text-xl font-bold mb-2">${attraction.Name || '未提供名称'}</h2>
+                                                        <p>${attraction.TravelNote || '未提供游记'}</p>
+                                                        <span class="show-more-btn">展开全部</span>
+                                                        <span class="show-less-btn">收起</span>
+                                                    </div>
+                                                `;
+
+                                const showMoreBtn = attractionDiv.querySelector('.show-more-btn');
+                                const showLessBtn = attractionDiv.querySelector('.show-less-btn');
+                                const travelNote = attractionDiv.querySelector('p');
+
+                                showMoreBtn.addEventListener('click', function () {
+                                    travelNote.style.maxHeight = 'none';
+                                    showMoreBtn.style.display = 'none';
+                                    showLessBtn.style.display = 'inline-block';
+                                });
+
+                                showLessBtn.addEventListener('click', function () {
+                                    travelNote.style.maxHeight = '120px';
+                                    showMoreBtn.style.display = 'inline-block';
+                                    showLessBtn.style.display = 'none';
+                                });
+
+                                cityContainer.appendChild(attractionDiv);
+                            }
+                        });
+                    }
+                } catch (error) {
+                    if (error.name === 'AbortError') {
+                        console.log("请求已被取消");
+                    } else {
+                        console.error("错误：", error);
+                    }
+                    loading.style.display = "none";
+                    $('#attraction-button').prop('disabled', false);
+                } finally {
+                    abortController = null;
+                }
+
+                closeBtn.click(function () {
+                    if (abortController) {
+                        abortController.abort();
+                        abortController = null;
+                    }
+                    modal.css('display', 'none');
+                });
+
+                $(window).click(function (event) {
+                    if (event.target == modal[0]) {
+                        if (abortController) {
+                            abortController.abort();
+                            abortController = null;
+                        }
+                        modal.css('display', 'none');
+                    }
+                });
+            });
+
+            function typeWriter(text, element, delay = 30) {
+                let index = 0;
+                const timer = setInterval(() => {
+                    if (index < text.length) {
+                        element.innerHTML += text.charAt(index);
+                        index++;
+                    } else {
+                        clearInterval(timer);
+                    }
+                }, delay);
+            }
+
+            // 多日游路线规划
+            $('#itinerary-button').click(async function () {
+                let abortController = new AbortController();
+                const signal = abortController.signal;
+                $(this).prop('disabled', true);
+                var modal = $('#myModal');
+                var closeBtn = $('.close');
+                var modalContent = $('#modalContent');
+                const locationInput = document.getElementById("location-input");
+                const daysInput = document.getElementById("days-input");
+                let location = locationInput.value;
+                let days = daysInput.value;
+
+                if (!location) {
+                    location = locationInput.placeholder;
+                }
+                if (!days) {
+                    days = daysInput.placeholder;
+                }
+                const combinedValue = `在 ${location} 进行 ${days} 天的旅行,写旅行攻略`;
+                const typingArea = document.getElementById("typingEffect");
+                const loading = document.getElementById("loading2");
+                const displayItinerary = document.getElementById("display-itinerary");
+                const itineraryContainer = document.getElementById("itinerary-container");
+                typingArea.innerHTML = "";
+                loading.style.display = "block";
+                modal.css('display', 'block');
+
+                try {
+                    console.log('开始发送多日游路线规划请求，输入文本:', combinedValue);
+                    const response = await fetch("/DeepSeek/CallDeepSeek", {
+                        method: "POST",
+                        body: new URLSearchParams({ inputtext: combinedValue }),
+                        signal: signal
+                    });
+                    console.log('多日游路线规划请求响应状态:', response.status);
+                    if (!response.ok) {
+                        throw new Error('请求失败，状态码: ' + response.status);
+                    }
+                    const completeText = await response.text();
+                    console.log('多日游路线规划返回的完整文本:', completeText);
+                    loading.style.display = "none";
+                    typeWriter(completeText, typingArea);
+                    $('#itinerary-button').prop('disabled', false);
+
+                    // 解析并显示多日游路线规划结果
+
+                } catch (error) {
+                    if (error.name === 'AbortError') {
+                        console.log("请求已被取消");
+                    } else {
+                        console.error("错误：", error);
+                    }
+                    loading.style.display = "none";
+                    $('#itinerary-button').prop('disabled', false);
+                } finally {
+                    abortController = null;
+                }
+
+                closeBtn.click(function () {
+                    if (abortController) {
+                        abortController.abort();
+                        abortController = null;
+                    }
+                    modal.css('display', 'none');
+                });
+
+                $(window).click(function (event) {
+                    if (event.target == modal[0]) {
+                        if (abortController) {
+                            abortController.abort();
+                            abortController = null;
+                        }
+                        modal.css('display', 'none');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>    
