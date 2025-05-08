@@ -1,0 +1,378 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+body > * {
+        animation: fadeIn 1s ease-in-out;
+    }
+.nav-first{
+    font-size:120%;
+    font-family:KaiTi
+}
+.nav-first:hover
+{
+    color:red
+}
+header h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.el-carousel__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    overflow: hidden;
+}
+
+    .el-carousel__item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .el-carousel__item:nth-child(2n) {
+        background-color: #99a9bf;
+    }
+
+    .el-carousel__item:nth-child(2n + 1) {
+        background-color: #d3dce6;
+    }
+
+.hot-spot-section {
+    background-color: #f9fafb;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 60px 0;
+}
+
+.hot-spot-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #374151;
+    text-align: center;
+    margin-bottom: 40px;
+    letter-spacing: -0.025em;
+}
+
+.box {
+    width: 100%;
+    height: 300px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+    .box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .box:hover {
+        transform: translateY(-8px);
+    }
+
+        .box:hover img {
+            transform: scale(1.05);
+        }
+
+.travel-guide-section {
+    padding: 60px 0;
+}
+
+.notation {
+    background-color: #e5f6ff;
+    border-radius: 12px;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.travel-day {
+    background-color: #f0f9ff;
+    border-radius: 12px;
+    padding: 30px;
+    height:1000px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.travel-head {
+    
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.input1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    z-index: 10;
+}
+
+
+/* 搜索框样式 */
+.search-card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    margin-bottom: 40px;
+}
+
+    .search-card h2 {
+        font-size: 2.2rem;
+        font-weight: bold;
+        margin-bottom: 30px;
+        color: #009688;
+    }
+
+.input-group input.form-control {
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+    font-size: 1rem;
+    padding: 10px 15px;
+}
+
+.input-group button.btn {
+    background-color: #009688;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    color: white;
+    font-size: 1rem;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+    .input-group button.btn:hover {
+        background-color: #00796b;
+    }
+
+.hot-strategy-card {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+}
+
+    .hot-strategy-card .card {
+        border: none;
+        transition: transform 0.3s ease;
+    }
+
+        .hot-strategy-card .card:hover {
+            transform: scale(1.02);
+        }
+
+    .hot-strategy-card img {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+/* 问答区域样式 */
+.qa-card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+}
+
+    .qa-card h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #009688;
+    }
+
+.accordion-item {
+    border: none;
+    margin-bottom: 15px;
+}
+
+.accordion-button {
+    font-size: 1.1rem;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+    .accordion-button:hover {
+        background-color: #f4f4f4;
+    }
+
+.accordion-body {
+    font-size: 1rem;
+    padding: 15px;
+    line-height: 1.6;
+}
+
+/* 热门问题推荐样式 */
+.popular-qa-card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+}
+
+    .popular-qa-card h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #009688;
+    }
+
+.list-unstyled li {
+    margin-bottom: 10px;
+}
+
+    .list-unstyled li a {
+        color: #00796b;
+        font-size: 1.1rem;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+
+        .list-unstyled li a:hover {
+            color: #009688;
+            transform: translateX(5px);
+        }
+
+        .list-unstyled li a i {
+            font-size: 1.3rem;
+            margin-right: 10px;
+            color: #009688;
+        }
+
+/* 侧边栏样式 */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -500px;
+    width: 500px;
+    height: 100%;
+    background-color: white;
+    box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    transition: right 0.3s ease;
+}
+
+    .sidebar.active {
+        right: 0;
+    }
+
+.sidebar-header {
+    background-color: #009688;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+    .sidebar-header h5 {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin: 0;
+    }
+
+.sidebar-body {
+    padding: 20px;
+}
+
+    .sidebar-body.lottie-container {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto 20px;
+    }
+
+
+    /*下面是privace2的内容*/
+
+
+/* 自定义动画 */
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* 鼠标悬停动画 */
+.hover-scale {
+    transition: transform 0.3s ease;
+}
+
+    .hover-scale:hover {
+        transform: scale(1.05);
+    }
+
+/* 模态框样式 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    border-radius: 8px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+

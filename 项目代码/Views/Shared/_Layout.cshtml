@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApplication1</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
+    <!-- 引入 Element UI 的 CSS 文件 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入 Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <!-- 引入 Element UI 的 JavaScript 文件 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- 引入 Element UI CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-plus@2.3.6/dist/index.css">
+    <!-- 引入 Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- 引入 Element UI JavaScript -->
+    <script src="https://unpkg.com/element-plus@2.3.6/dist/index.full.js"></script>
+
+
+    
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="padding-left:5%">
+                    <h1 style="font-size:200%;font-family:KaiTi">  <img src="/picture/logo.png" alt="logo" style="width: 40px; height: auto;padding-right:10px; padding-left:2%"> 旅游网</h1>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1 justify-content-end list-unstyle">
+                        <li class="nav-item " style="padding-right:3%">
+                            <a class="nav-link text-dark " asp-area="" asp-controller="Home" asp-action="Index"><h2 class="nav-first">首页 </h2></a>
+                        </li>
+                        <li class="nav-item "style="padding-right:3%">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy"><h2 class="nav-first">行程攻略</h2></a>
+                        </li>
+                        <li class="nav-item " style="padding-right:3%">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy1"><h2 class="nav-first">智慧订票</h2></a>
+                        </li>
+                        <li class="nav-item " style="padding-right:10%">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy2"><h2 class="nav-first">个人中心</h2></a>
+                        </li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <!-- 页脚导航 -->
+                <div class="col-md-4">
+                    <h5>导航</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="\Home\Index" class="text-white">首页</a></li>
+                        <li><a href="\Home\contact" class="text-white">关于我们</a></li>
+                        <li><a href="\Home\contact" class="text-white">服务</a></li>
+                        <li><a href="\Home\contact" class="text-white">联系我们</a></li>
+                    </ul>
+                </div>
+                <!-- 版权信息 -->
+                <div class="col-md-4">
+                    <h5>版权信息</h5>
+                    <p>&copy; 2025 你的公司名称。保留所有权利。</p>
+                </div>
+                <!-- 社交媒体链接 -->
+                <div class="col-md-4">
+                    <h5>关注我们</h5>
+                    <ul class="list-unstyled d-flex">
+                        <li class="me-3"><a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a></li>
+                        <li class="me-3"><a href="#" class="text-white"><i class="fab fa-twitter"></i></a></li>
+                        <li class="me-3"><a href="#" class="text-white"><i class="fab fa-instagram"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

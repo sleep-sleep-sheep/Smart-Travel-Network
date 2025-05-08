@@ -1,0 +1,279 @@
+﻿
+
+<style>
+        /* 导航栏样式 */
+    .hero {
+        background: url('https://picsum.photos/1920/1080') no-repeat center center fixed;
+        background-size: cover;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        position: relative;
+    }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+    .hero-content {
+        z-index: 1;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 4rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero p {
+        font-size: 1.8rem;
+        margin-bottom: 2.5rem;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero.btn {
+        padding: 1rem 2.5rem;
+        font-size: 1.3rem;
+        border-radius: 30px;
+        background-color: #007BFF;
+        border: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+    }
+
+        .hero.btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+    /* 热门线路样式 */
+    .hot-routes {
+        padding: 8rem 0;
+        background-color: #f9f9f9;
+    }
+
+        .hot-routes h2 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 4rem;
+            text-align: center;
+            color: #333;
+        }
+
+    .route-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        overflow: hidden;
+        background-color: white;
+    }
+
+        .route-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .route-card img {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .route-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .route-card.card-body {
+            padding: 2rem;
+        }
+
+        .route-card.card-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .route-card.card-text {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .route-card.btn {
+            background-color: #007BFF;
+            border: none;
+            border-radius: 25px;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+            .route-card.btn:hover {
+                background-color: #0056b3;
+                transform: scale(1.05);
+            }
+
+    /* 订票流程样式 */
+    .booking-process {
+        padding: 8rem 0;
+        background-color: #fff;
+    }
+
+        .booking-process h2 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 4rem;
+            text-align: center;
+            color: #333;
+        }
+
+    .process-step {
+        text-align: center;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        background-color: #f9f9f9;
+    }
+
+        .process-step:hover {
+            transform: translateY(-5px);
+        }
+
+        .process-step i {
+            font-size: 3.5rem;
+            color: #007BFF;
+            margin-bottom: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .process-step:hover i {
+            color: #0056b3;
+        }
+
+        .process-step h3 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .process-step p {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+
+    /* 页脚样式 */
+    footer {
+        background-color: #343a40;
+        color: white;
+        padding: 3rem 0;
+        text-align: center;
+    }
+
+    .footer-social {
+        margin-bottom: 1.5rem;
+    }
+
+        .footer-social a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+            .footer-social a:hover {
+                color: #007BFF;
+            }
+
+    .footer-copyright {
+        font-size: 1.1rem;
+    }
+    </style>
+    <title>智慧订票</title>
+
+<body>
+    <div class="hero">
+        <div class="hero-content container">
+            <h1>轻松预订您的行程</h1>
+            <p>发现更多精彩旅行，享受无忧订票体验</p>
+            <a href="#" class="btn btn-primary">立即订票</a>
+        </div>
+    </div>
+
+    <!-- 热门线路 -->
+    <div class="hot-routes">
+        <div class="container">
+            <h2>热门线路</h2>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <div class="col">
+                    <div class="route-card card">
+                        <img src="https://picsum.photos/400/300" class="card-img-top" alt="线路 1">
+                        <div class="card-body">
+                            <h5 class="card-title">线路一</h5>
+                            <p class="card-text">这是一条非常受欢迎的旅游线路，带你领略美丽的风景。</p>
+                            <a href="#" class="btn btn-primary">查看详情</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="route-card card">
+                        <img src="https://picsum.photos/400/301" class="card-img-top" alt="线路 2">
+                        <div class="card-body">
+                            <h5 class="card-title">线路二</h5>
+                            <p class="card-text">这条线路充满了文化和历史的气息，不容错过。</p>
+                            <a href="#" class="btn btn-primary">查看详情</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="route-card card">
+                        <img src="https://picsum.photos/400/302" class="card-img-top" alt="线路 3">
+                        <div class="card-body">
+                            <h5 class="card-title">线路三</h5>
+                            <p class="card-text">探索大自然的魅力，这条线路会给你带来惊喜。</p>
+                            <a href="#" class="btn btn-primary">查看详情</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 订票流程 -->
+    <div class="booking-process">
+        <div class="container">
+            <h2>订票流程</h2>
+            <div class="row">
+                <div class="col-md-4 process-step">
+                    <i class="fa-solid fa-search"></i>
+                    <h3>搜索线路</h3>
+                    <p>输入您的出发地和目的地，查找合适的线路。</p>
+                </div>
+                <div class="col-md-4 process-step">
+                    <i class="fa-solid fa-ticket"></i>
+                    <h3>选择座位</h3>
+                    <p>根据您的需求选择合适的座位。</p>
+                </div>
+                <div class="col-md-4 process-step">
+                    <i class="fa-solid fa-credit-card"></i>
+                    <h3>完成支付</h3>
+                    <p>使用安全的支付方式完成订票。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

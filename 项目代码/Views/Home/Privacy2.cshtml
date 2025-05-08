@@ -1,0 +1,56 @@
+﻿
+  
+    <div class="container py-5">
+        <!-- 登录表单 -->
+        <div id="loginForm" class="bg-white p-4 rounded shadow mb-4 animate-fade-in hover-scale">
+            <h2 class="mb-4 text-primary">登录</h2>
+            <div id="loginError" class="alert alert-danger d-none" role="alert">
+            </div>
+        <form id="loginFormSubmit" method="post" action="/Rigister/Login">
+                <div class="mb-3">
+                    <label for="loginUsername" class="form-label">用户名</label>
+                    <input type="text" class="form-control" id="loginUsername" name="loginUsername" required>
+                </div>
+                <div class="mb-3">
+                    <label for="loginPassword" class="form-label">密码</label>
+                    <input type="password" class="form-control" id="loginPassword" name="loginPassword" required>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <button type="submit" class="btn btn-primary">登录</button>
+                    <button type="button" class="btn btn-link text-primary" onclick="showRegisterForm()">注册</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 注册表单 -->
+        <div id="registerForm" class="bg-white p-4 rounded shadow mb-4 animate-fade-in hover-scale d-none">
+            <h2 class="mb-4 text-success">注册</h2>
+            <div id="registerError" class="alert alert-danger d-none" role="alert">
+            </div>
+        <form id="registerFormSubmit" method="post" action="/Rigister/Register">
+                <div class="mb-3">
+                    <label for="registerUsername" class="form-label">用户名</label>
+                    <input type="text" class="form-control" id="registerUsername" name="registerUsername" required>
+                </div>
+                <div class="mb-3">
+                    <label for="registerPassword" class="form-label">密码</label>
+                    <input type="password" class="form-control" id="registerPassword" name="registerPassword" required>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <button type="submit" class="btn btn-success">注册</button>
+                    <button type="button" class="btn btn-link text-success" onclick="showLoginForm()">返回登录</button>
+                </div>
+            </form>
+        </div>
+       </div>
+    <script>
+        function showRegisterForm() {
+            document.getElementById('loginForm').classList.add('d-none');
+            document.getElementById('registerForm').classList.remove('d-none');
+        }
+
+        function showLoginForm() {
+            document.getElementById('registerForm').classList.add('d-none');
+            document.getElementById('loginForm').classList.remove('d-none');
+        }
+     </script>

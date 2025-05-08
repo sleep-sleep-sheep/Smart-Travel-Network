@@ -1,0 +1,261 @@
+﻿
+    <!-- 行程与线路区域 -->
+    <div class="row g-4">
+        <!-- 左侧行程面板 -->
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title text-warning mb-3">我的行程</h2>
+                    <p class="card-text text-secondary" id="tripList">
+                        <i class="bi bi-calendar-check"></i> 目前暂无行程，点击下方线路开始预订
+                    </p>
+                    <a href="#" class="btn btn-warning w-100">查看全部行程</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧线路推荐 -->
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h3 class="card-title text-secondary mb-4">
+                        <i class="bi bi-compass"></i> 热门旅游线路推荐
+                    </h3>
+
+                    <!-- 搜索栏 -->
+                    <div class="input-group mb-4">
+                        <input type="text" id="searchInput" class="form-control" placeholder="搜索线路名称或描述...">
+                        <button class="btn btn-warning" type="button" onclick="searchRoutes()">
+                            <i class="bi bi-search"></i> 搜索
+                        </button>
+                    </div>
+
+                    <!-- 线路卡片容器 -->
+                    <div class="row g-3" id="travelRoutes"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 旅游小贴士（卡片式设计） -->
+    <div class="card shadow mt-4">
+        <div class="card-body">
+            <h3 class="card-title text-secondary mb-3">
+                <i class="bi bi-lightbulb"></i> 旅游小贴士
+            </h3>
+            <ul class="list-unstyled">
+                <li class="mb-2">
+                    <i class="bi bi-info-circle text-warning"></i> 提前查看目的地天气预报，携带合适衣物
+                </li>
+                <li class="mb-2">
+                    <i class="bi bi-medkit text-warning"></i> 必备药品：晕车药、感冒药、创可贴
+                </li>
+                <li class="mb-2">
+                    <i class="bi bi-clock text-warning"></i> 建议每日行程不超过8小时，预留休息时间
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 用户反馈表单（卡片式设计） -->
+    <div class="card shadow mt-4 p-4">
+        <h3 class="text-secondary mb-4">
+            <i class="bi bi-chat-left-text"></i> 留下您的反馈
+        </h3>
+        <form id="feedbackForm" onsubmit="submitFeedback(event)" class="row g-3">
+            <div class="col-md-6">
+                <label for="feedbackName" class="form-label">姓名</label>
+                <input type="text" class="form-control" id="feedbackName" required>
+            </div>
+            <div class="col-md-6">
+                <label for="feedbackEmail" class="form-label">邮箱</label>
+                <input type="email" class="form-control" id="feedbackEmail" required>
+            </div>
+            <div class="col-12">
+                <label for="feedbackMessage" class="form-label">反馈内容</label>
+                <textarea class="form-control" id="feedbackMessage" rows="4" required minlength="50"></textarea>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-purple w-100">
+                    <i class="bi bi-send"></i> 提交反馈
+                </button>
+            </div>
+        </form>
+    </div>
+
+
+<!-- 线路详情模态框（优化样式） -->
+<div class="modal fade" id="routeDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title text-warning" id="routeDetailsTitle"></h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+            </div>
+            <div class="modal-body">
+                <p id="routeDetailsDesc" class="text-secondary fs-5"></p>
+                <div class="mt-4">
+                    <h4 class="text-danger">价格：<span id="routePrice"></span> 元/人</h4>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning"
+                        onclick="showBookingForm(this.dataset.routeid, this.dataset.routename)"
+                        data-bs-dismiss="modal"
+                        data-routeid=""
+                        data-routename="">
+                    立即预订
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 订票模态框 -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title text-warning" id="bookingTitle"></h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+            </div>
+            <div class="modal-body">
+                <form id="bookingForm" onsubmit="submitBooking(event)" class="row g-3">
+                    <input type="hidden" id="bookingRouteId" name="routeId">
+                    <div class="col-md-6">
+                        <label for="bookingName" class="form-label">姓名</label>
+                        <input type="text" class="form-control" id="bookingName" name="bookingName" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="bookingPhone" class="form-label">联系电话</label>
+                        <input type="tel" class="form-control" id="bookingPhone" name="bookingPhone" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="bookingDate" class="form-label">出行日期</label>
+                        <input type="date" class="form-control" id="bookingDate" name="bookingDate" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="bookingNumber" class="form-label">预订人数</label>
+                        <input type="number" class="form-control" id="bookingNumber" name="bookingNumber" min="1" value="1" required>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-success w-100">提交订单</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiUrl = '@Url.Content("~/Home/")';
+        let routes = [];
+
+        // 初始化
+        async function init() {
+            await loadRoutes();
+            new bootstrap.Typeahead(document.getElementById('searchInput'), {
+                source: routes.map(route => route.Title),
+                minLength: 2
+            });
+        }
+
+        // 加载线路
+        async function loadRoutes() {
+            const response = await fetch(apiUrl + "GetTravelRoutes");
+            routes = await response.json();
+            renderRoutes(routes);
+        }
+
+        // 渲染线路卡片
+        function renderRoutes(data) {
+            const container = document.getElementById('travelRoutes');
+            container.innerHTML = data.map(route => `
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card shadow hover-scale">
+                                <img src="https://picsum.photos/300/200?random=${route.id}" class="card-img-top" alt="${route.Title}">
+                                <div class="card-body">
+                                    <h5 class="card-title text-warning">${route.Title}</h5>
+                                    <p class="card-text text-secondary">${route.Description.split('。')[0]}。</p>
+                                    <div class="d-flex justify-content-between align-items-end">
+                                        <h4 class="text-danger">¥${route.Price}</h4>
+                                        <button class="btn btn-warning"
+                                                onclick="openRouteModal(${route.id}, '${route.Title}', ${route.Price}, '${route.Description}')">
+                                            查看详情
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+        }
+
+        // 打开详情模态框
+        function openRouteModal(id, title, price, desc) {
+            document.getElementById('routeDetailsTitle').textContent = title;
+            document.getElementById('routePrice').textContent = price;
+            document.getElementById('routeDetailsDesc').textContent = desc;
+            document.getElementById('routeDetailsModal').querySelector('button[data-routeid]').setAttribute('data-routeid', id);
+            document.getElementById('routeDetailsModal').querySelector('button[data-routename]').setAttribute('data-routename', title);
+            new bootstrap.Modal('#routeDetailsModal').show();
+        }
+
+        // 显示订票表单
+        function showBookingForm(routeId, routeName) {
+            document.getElementById('bookingRouteId').value = routeId;
+            document.getElementById('bookingTitle').textContent = `预订 ${routeName}`;
+            new bootstrap.Modal('#bookingModal').show();
+        }
+
+        // 提交订票表单
+        async function submitBooking(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            const response = await fetch(apiUrl + "Book", {
+                method: "POST",
+                body: formData
+            });
+            const result = await response.json();
+            if (result.success) {
+                alert(result.message);
+                new bootstrap.Modal('#bookingModal').hide();
+            } else {
+                alert(result.message);
+            }
+        }
+
+        // 搜索线路
+        function searchRoutes() {
+            const keyword = document.getElementById('searchInput').value.trim();
+            if (keyword === '') return renderRoutes(routes);
+
+            const filtered = routes.filter(route =>
+                route.Title.toLowerCase().includes(keyword) ||
+                route.Description.toLowerCase().includes(keyword)
+            );
+            renderRoutes(filtered);
+        }
+
+        // 提交反馈
+        async function submitFeedback(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            const response = await fetch(apiUrl + "SubmitFeedback", {
+                method: "POST",
+                body: formData
+            });
+            const result = await response.json();
+            if (result.success) {
+                alert(result.message);
+                form.reset();
+            } else {
+                alert(result.message);
+            }
+        }
+
+        init();
+    </script>
+}    

@@ -1,0 +1,300 @@
+﻿
+    <style>
+       
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+        .lottie-container {
+            width: 100%;
+            height: 200px;
+        }
+
+        .qa-records {
+            margin-top: 20px;
+        }
+
+        .qa-record {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .qa-record-summary {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .qa-record-content {
+            display: none;
+        }
+
+        .qa-record.expanded .qa-record-summary {
+            display: none;
+        }
+
+        .qa-record.expanded .qa-record-content {
+            display: block;
+        }
+
+        .toggle-btn {
+            cursor: pointer;
+            color: blue;
+        }
+
+        .qa-records-scroll {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+
+    <section class="position-relative">
+        <div id="app2">
+            <el-carousel height="600px" direction="vertical" :autoplay="true">
+                <el-carousel-item v-for="(item, index) in imageList" :key="index">
+                    <img :src="item" alt="轮播图" style="width: 100%; height: 100%; object-fit: cover;">
+                </el-carousel-item>
+            </el-carousel>
+        
+            <!-- 搜索框 -->
+            <div class="container my-5" id="search-box">
+                <div class="search-card text-center">
+                    <h2>有什么旅行问题，尽管问！</h2>
+                    <div class="input-group input-group-lg justify-content-center">
+                        <input type="text" class="form-control" placeholder="输入你的问题">
+                        <button class="btn" type="button" onclick="searchAndShowSidebar()">提问</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 记录区域 -->
+            <div class="container my-5" >
+                <div class="qa-card">
+                    <h2>问答记录</h2>
+                    <div class="qa-records qa-records-scroll">
+                        <div v-for="(record, index) in qaRecords" :key="index" class="qa-record" :class="{ expanded: record.expanded }">
+                            <div class="qa-record-summary">
+                                <strong>用户：</strong> {{ record.question }}
+                                <br>
+                                <strong>AI：</strong> {{ record.answer }}
+                            </div>
+                            <div class="qa-record-content">
+                                <strong>用户：</strong> {{ record.question }}
+                                <br>
+                                <strong>AI：</strong> {{ record.answer }}
+                            </div>
+                            <span class="toggle-btn" :data-index="index">{{ record.expanded? '收起' : '展开' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- 热门攻略 -->
+    <div class="hot-strategy-card">
+        <h2>热门攻略</h2>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+            <div class="card">
+     
+                    <img src="https://picsum.photos/300/200?random=1" class="card-img-top" alt="攻略图片">
+                    <div class="card-body">
+                        <h5 class="card-title">三亚亲子游攻略</h5>
+                        <p class="card-text">带孩子一起去三亚享受阳光沙滩，这里有适合亲子游玩的景点和美食。</p>
+                    <a href="Index1" class="btn btn-primary">查看详情</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="https://picsum.photos/300/200?random=2" class="card-img-top" alt="攻略图片">
+                    <div class="card-body">
+                        <h5 class="card-title">重庆美食之旅攻略</h5>
+                        <p class="card-text">重庆是一座美食之都，带你品尝各种地道的重庆美食。</p>
+                        <a href="Index2" class="btn btn-primary">查看详情</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="https://picsum.photos/300/200?random=3" class="card-img-top" alt="攻略图片">
+                    <div class="card-body">
+                        <h5 class="card-title">西藏自驾游攻略</h5>
+                        <p class="card-text">自驾去西藏，领略壮丽的自然风光和独特的文化。</p>
+                        <a href="Index3" class="btn btn-primary">查看详情</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section id="search-div">
+        <!-- 热门问题推荐 -->
+        <div class="container my-5">
+            <div class="popular-qa-card">
+                <h2>热门问题</h2>
+                <ul class="list-unstyled">
+                    <li>
+                    <span onclick="searchQuestion('去日本旅游的最佳时间是什么时候？')" style="cursor: pointer;">
+                            <i class="bi bi-question-circle-fill"></i>去日本旅游的最佳时间是什么时候？
+                        </span>
+                    </li>
+                    <li>
+                    <span onclick="searchQuestion('泰国旅游需要注意什么？')" style="cursor: pointer;">
+                            <i class="bi bi-question-circle-fill"></i>泰国旅游需要注意什么？
+                        </span>
+                    </li>
+                    <li>
+                    <span onclick="searchQuestion('如何预订便宜的机票？')" style="cursor: pointer;">
+                            <i class="bi bi-question-circle-fill"></i>如何预订便宜的机票？
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h5>AI 的回答</h5>
+            </div>
+            <div class="sidebar-body">
+                <lottie-player class="lottie-container" src="https://assets2.lottiefiles.com/packages/lf20_kxwgk1iy.json" background="transparent" speed="1" loop autoplay></lottie-player>
+                <p id="answer">这是 AI 为您生成的回答内容，您可以在这里查看详细信息。具体内容会根据您的问题动态生成哦。</p>
+            </div>
+        </div>
+    </section>
+ 
+    <script>
+        const { createApp } = Vue;
+        const { ElCarousel, ElCarouselItem } = ElementPlus;
+
+        const app2 = createApp({
+            data() {
+                return {
+                    imageList: [
+                    'https://picsum.photos/1925/1080',
+                    'https://picsum.photos/1926/1080',
+                    'https://picsum.photos/1927/1080'
+                    ],
+                    input: '',
+                    qaRecords: []
+                };
+            },
+            methods: {
+                search() {
+                    if (this.input.trim() !== '') {
+                        searchQuestion(this.input);
+                    }
+                },
+                async fetchQARecords() {
+                    try {
+                        const response = await fetch('/Privacy/GetQARecords');
+                        const data = await response.json();
+                        console.log('从后端获取的数据:', data);
+                        this.qaRecords = data.map(record => ({ ...record, expanded: false }));
+                    } catch (error) {
+                        console.error('Error fetching QA records:', error);
+                    }
+                },
+                toggleRecord(index) {
+                    this.qaRecords[index].expanded = !this.qaRecords[index].expanded;
+                }
+            },
+            mounted() {
+                this.fetchQARecords();
+                const vm = this;
+                // 监听问答记录的更新，更新展开/收起按钮事件
+                const observer = new MutationObserver(() => {
+                    const toggleButtons = document.querySelectorAll('.toggle-btn');
+                    toggleButtons.forEach(button => {
+                        button.removeEventListener('click', handleToggle);
+                        button.addEventListener('click', handleToggle);
+                    });
+                });
+
+                const targetNode = document.querySelector('.qa-records');
+                const config = { childList: true, subtree: true };
+                observer.observe(targetNode, config);
+
+                function handleToggle() {
+                    const index = parseInt(this.dataset.index);
+                    vm.toggleRecord(index);
+                }
+            }
+        });
+        app2.component('el-carousel', ElCarousel);
+        app2.component('el-carousel-item', ElCarouselItem);
+        app2.mount('#app2');
+
+        function searchQuestion(question) {
+            const need = document.querySelector('.input-group input[type="text"]');
+            // 设置 input 元素的值
+            need.value = question;
+
+            var target = document.getElementById('search-box');
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                console.error('未找到 id 为 search-box 的元素');
+            }
+        }
+
+        async function searchAndShowSidebar() {
+            const input = document.querySelector('.input-group input[type="text"]').value;
+            if (input.trim() !== '') {
+                const controller = new AbortController();
+                const signal = controller.signal;
+                const combinedValue = input;
+
+                try {
+                    // 发送请求到 DeepSeek 接口
+                    const sidebar = document.querySelector('.sidebar');
+                    sidebar.classList.add('active');
+                    const response = await fetch("/DeepSeek/CallDeepSeek", {
+                        method: "POST",
+                        body: new URLSearchParams({ inputtext: combinedValue }),
+                        signal: signal
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.text();
+                    // 保存搜索记录到后端
+                    await fetch('/Privacy/SaveQARecord', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            question: input,
+                            answer: data
+                        })
+                    });
+
+                    // 显示回答并打开侧边栏
+                    const answerElement = document.getElementById('answer');
+                    answerElement.textContent = `AI：${data}`;
+
+                } catch (error) {
+                    console.error('请求过程中出现错误:', error);
+                }
+            }
+        }
+
+        function showSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.add('active');
+        }
+
+        document.addEventListener('click', function (event) {
+            const sidebar = document.querySelector('.sidebar');
+            if (!sidebar.contains(event.target) && !event.target.matches('.btn')) {
+                sidebar.classList.remove('active');
+            }
+        });
+    </script>
